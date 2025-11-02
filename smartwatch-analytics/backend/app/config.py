@@ -64,7 +64,7 @@ class Settings(BaseSettings):
     REDIS_URL: Optional[str] = os.getenv("REDIS_URL")
     
     class Config:
-        env_file = ".env"
+        env_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '.env'))
         case_sensitive = True
 
 # Instância global das configurações

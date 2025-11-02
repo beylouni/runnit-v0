@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: garmin-integration-api
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: smartwatch-db
+          property: connectionString
+      - key: GARMIN_CLIENT_ID
+        sync: false
+      - key: GARMIN_CLIENT_SECRET
+        sync: false
+      - key: GARMIN_REDIRECT_URI
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 10000
+
+databases:
+  - name: smartwatch-db
+    plan: free
+    databaseName: smartwatch_analytics
+    user: smartwatch_user
+

@@ -20,7 +20,7 @@ from datetime import datetime
 import json
 
 # Add parent directory to path for garmin_fit_sdk
-parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if parent_path not in sys.path:
     sys.path.insert(0, parent_path)
 
