@@ -238,6 +238,7 @@ async def garmin_webhook_generic(request: Request, background_tasks: BackgroundT
             'userMetrics': 'HEALTH_USER_METRICS',
             'deregistrations': 'DEREGISTRATIONS',
             'permissionsChange': 'PERMISSIONS_CHANGE',
+            'userPermissionsChange': 'USER_PERMISSIONS_CHANGE',  # Variação enviada após autenticação
             'workouts': 'WORKOUT',
         }
         
