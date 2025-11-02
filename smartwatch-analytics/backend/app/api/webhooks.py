@@ -157,6 +157,110 @@ processor = WebhookProcessor()
 # ACTIVITY WEBHOOKS
 # ============================================================================
 
+@router.post("/garmin")
+async def garmin_webhook_generic(request: Request, background_tasks: BackgroundTasks):
+    """
+    🎯 Endpoint genérico que recebe TODOS os tipos de webhook da Garmin
+    
+    Você pode configurar TODOS os webhooks da Garmin para apontar para este endpoint!
+    Ele detecta automaticamente o tipo pelo conteúdo do JSON.
+    
+    URL para usar em TODOS os webhooks:
+    https://garmin-integration-api.onrender.com/webhooks/garmin
+    """
+    try:
+        body = await request.json()
+        webhook_keys = list(body.keys())
+        logger.info(f"📥 Webhook genérico recebido. Chaves: {webhook_keys}")
+        
+        # Detectar tipo de webhook pelas chaves do JSON
+        webhook_type_map = {
+            'activities': 'ACTIVITY',
+            'activityDetails': 'ACTIVITY_DETAILS',
+            'activityFiles': 'ACTIVITY_FILES',
+            'manuallyUpdatedActivities': 'MANUALLY_UPDATED_ACTIVITIES',
+            'moveIQActivities': 'MOVEIQ',
+            'dailies': 'HEALTH_DAILIES',
+            'epochs': 'HEALTH_EPOCHS',
+            'sleeps': 'HEALTH_SLEEPS',
+            'stressDetails': 'HEALTH_STRESS',
+            'bodyComps': 'HEALTH_BODY_COMPOSITION',
+            'hrv': 'HEALTH_HRV',
+            'healthSnapshot': 'HEALTH_SNAPSHOT',
+            'pulseox': 'HEALTH_PULSE_OX',
+            'allDayRespiration': 'HEALTH_RESPIRATION',
+            'skinTemp': 'HEALTH_SKIN_TEMPERATURE',
+            'bloodPressures': 'HEALTH_BLOOD_PRESSURE',
+            'userMetrics': 'HEALTH_USER_METRICS',
+            'deregistrations': 'DEREGISTRATIONS',
+            'permissionsChange': 'PERMISSIONS_CHANGE',
+            'workouts': 'WORKOUT',
+        }
+        
+        # Identificar tipo
+        detected_type = None
+        detected_key = None
+        for key in webhook_keys:
+            if key in webhook_type_map:
+                detected_type = webhook_type_map[key]
+                detected_key = key
+                break
+        
+        if not detected_type:
+            logger.warning(f"⚠️ Tipo não reconhecido. Chaves recebidas: {webhook_keys}")
+            return {
+                "status": "received",
+                "message": "Webhook recebido mas tipo não identificado",
+                "keys": webhook_keys
+            }
+        
+        logger.info(f"🎯 Webhook detectado: {detected_type} (chave: {detected_key})")
+        
+        # Processar conforme o tipo
+        processor = WebhookProcessor()
+        result = {
+            "status": "received",
+            "type": detected_type,
+            "received_at": datetime.now().isoformat(),
+            "data_count": len(body.get(detected_key, [])) if detected_key else 0
+        }
+        
+        # Processar tipos específicos quando implementados
+        try:
+            if detected_key == 'activities':
+                result = await processor.process_activity_webhook(body)
+            elif detected_key in ['dailies', 'epochs', 'sleeps', 'stressDetails', 'bodyComps', 
+                                  'hrv', 'healthSnapshot', 'pulseox', 'allDayRespiration', 
+                                  'skinTemp', 'bloodPressures', 'userMetrics']:
+                result = await processor.process_health_webhook(body, detected_key)
+                result['type'] = detected_type
+            else:
+                # Para outros tipos, apenas logar
+                logger.info(f"📝 Webhook {detected_type} recebido. Processamento específico a implementar.")
+                result['message'] = f"Webhook {detected_type} recebido e logado. Processamento será implementado."
+                result['raw_data_preview'] = str(body)[:500]  # Preview dos dados
+        except Exception as proc_error:
+            logger.error(f"Erro no processamento específico: {proc_error}")
+            result['error'] = str(proc_error)
+            result['message'] = "Webhook recebido mas erro no processamento"
+        
+        return result
+        
+    except json.JSONDecodeError:
+        logger.error("❌ Erro: JSON inválido recebido")
+        raise HTTPException(status_code=400, detail="Invalid JSON")
+    except Exception as e:
+        logger.error(f"❌ Erro ao processar webhook genérico: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        # Sempre retornar 200 para evitar retries desnecessários da Garmin
+        return {
+            "status": "error",
+            "message": str(e),
+            "note": "Erro processado. Webhook recebido mas não processado."
+        }
+
+
 @router.post("/garmin/activity")
 async def garmin_activity_webhook(request: Request, background_tasks: BackgroundTasks):
     """
