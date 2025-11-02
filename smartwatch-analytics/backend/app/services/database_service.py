@@ -42,14 +42,32 @@ def get_connection_pool():
             return None
         
         try:
+            # Render requer SSL, então vamos garantir que está configurado
+            # Se DATABASE_URL já incluir ?sslmode=require, usar diretamente
+            # Caso contrário, adicionar parâmetros SSL
+            db_url = settings.DATABASE_URL
+            if '?' not in db_url:
+                # Adicionar parâmetros SSL para Render
+                db_url = f"{db_url}?sslmode=require"
+            elif 'sslmode' not in db_url:
+                db_url = f"{db_url}&sslmode=require"
+            
             _pool = SimpleConnectionPool(
                 minconn=1,
                 maxconn=10,
-                dsn=settings.DATABASE_URL
+                dsn=db_url
             )
-            logger.info("✅ Pool de conexões PostgreSQL criado")
+            
+            # Testar conexão imediatamente para detectar erros
+            test_conn = _pool.getconn()
+            test_conn.close()
+            _pool.putconn(test_conn)
+            
+            logger.info("✅ Pool de conexões PostgreSQL criado e testado")
         except Exception as e:
             logger.error(f"❌ Erro ao criar pool de conexões: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
             return None
     
     return _pool
