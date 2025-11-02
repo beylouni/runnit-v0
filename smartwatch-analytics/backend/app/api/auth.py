@@ -143,13 +143,15 @@ async def garmin_callback(request: Request, background_tasks: BackgroundTasks):
                 logger.info("🔄 Iniciando backfill histórico automático...")
                 service = HistoricalBackfillService(access_token_for_backfill)
                 
-                # Backfill de atividades (5 anos)
+                # Backfill de atividades (2 anos - reduzido para evitar rate limit)
+                # Após backfill inicial, dados futuros virão automaticamente via webhooks
                 end_date = datetime.now().replace(tzinfo=datetime.now().astimezone().tzinfo)
-                start_date = end_date - timedelta(days=5 * 365)
+                start_date = end_date - timedelta(days=2 * 365)
                 await service.backfill_complete_activity_history(start_date, end_date)
                 
-                # Backfill de health data (2 anos)
-                health_start = end_date - timedelta(days=2 * 365)
+                # Backfill de health data (1 ano - reduzido pois Health API é mais restritiva)
+                # Garmin faz PUSH automático via webhooks se usuário não sincronizar por dias
+                health_start = end_date - timedelta(days=1 * 365)
                 await service.backfill_all_health_data(health_start, end_date)
                 
                 logger.info("✅ Backfill histórico completo iniciado com sucesso")

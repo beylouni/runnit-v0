@@ -3,8 +3,13 @@
 Serviço de Backfill Histórico Completo
 ========================================
 
-Extrai TODOS os dados históricos de um atleta fazendo múltiplas requisições
-de backfill (30 dias para Activities, 90 dias para Health).
+⚠️ IMPORTANTE - Rate Limiting da Garmin:
+- Free tier: 100 requisições/minuto
+- Garmin recomenda: NÃO fazer polling, apenas receber via webhooks
+- Se usuário não sincronizar por dias, Garmin faz PUSH automático via webhooks
+- Após backfill inicial, dados virão automaticamente via webhooks
+
+Este serviço faz backfill inicial com delays conservadores para evitar rate limit.
 """
 
 import logging
@@ -44,8 +49,9 @@ class HistoricalBackfillService:
             end_date = datetime.now(timezone.utc)
         
         if not start_date:
-            # Por padrão, buscar 5 anos de histórico
-            start_date = end_date - timedelta(days=5*365)
+            # Por padrão, buscar 2 anos de histórico (reduzido de 5 para evitar rate limit)
+            # Após backfill inicial, dados futuros virão automaticamente via webhooks
+            start_date = end_date - timedelta(days=2*365)
         
         # Limite da API: 30 dias por requisição
         chunk_days = 30
@@ -54,6 +60,7 @@ class HistoricalBackfillService:
         current_start = start_date
         
         logger.info(f"Iniciando backfill de atividades de {start_date.date()} a {end_date.date()}")
+        logger.info("⚠️ Usando delays conservadores (10s) para respeitar rate limit da Garmin (100 req/min)")
         
         while current_start < end_date:
             current_end = min(current_start + timedelta(days=chunk_days), end_date)
@@ -69,10 +76,11 @@ class HistoricalBackfillService:
             # Avançar para o próximo chunk
             current_start = current_end
             
-            # Rate limit: aguardar 1 segundo entre requisições para evitar 429
+            # Rate limit: aguardar 10 segundos entre requisições para evitar 429
             # Free tier: 100 req/min = mínimo 0.6s entre requisições
-            # Usando 2s para margem de segurança
-            await asyncio.sleep(2)
+            # Usando 10s para ser muito conservador (máximo 6 req/min)
+            # Garmin recomenda não fazer polling excessivo - dados virão via webhooks
+            await asyncio.sleep(10)
         
         total_requests = len(requests_made)
         successful = sum(1 for r in requests_made if r["success"])
@@ -109,8 +117,9 @@ class HistoricalBackfillService:
             end_date = datetime.now(timezone.utc)
         
         if not start_date:
-            # Por padrão, buscar 2 anos de histórico
-            start_date = end_date - timedelta(days=2*365)
+            # Por padrão, buscar 1 ano de histórico (reduzido para evitar rate limit)
+            # Após backfill inicial, dados futuros virão automaticamente via webhooks
+            start_date = end_date - timedelta(days=1*365)
         
         # Limite da API: 90 dias por requisição
         chunk_days = 90
@@ -119,6 +128,7 @@ class HistoricalBackfillService:
         current_start = start_date
         
         logger.info(f"Iniciando backfill de {summary_type} de {start_date.date()} a {end_date.date()}")
+        logger.info("⚠️ Usando delays conservadores (10s) para respeitar rate limit da Garmin")
         
         while current_start < end_date:
             current_end = min(current_start + timedelta(days=chunk_days), end_date)
@@ -136,9 +146,11 @@ class HistoricalBackfillService:
             # Avançar para o próximo chunk
             current_start = current_end
             
-            # Rate limit: aguardar 2 segundos entre requisições para evitar 429
+            # Rate limit: aguardar 10 segundos entre requisições para evitar 429
             # Free tier: 100 req/min = mínimo 0.6s entre requisições
-            await asyncio.sleep(2)
+            # Usando 10s para ser muito conservador (máximo 6 req/min)
+            # Health API tem rate limit mais restritivo - Garmin envia dados via webhooks
+            await asyncio.sleep(10)
         
         total_requests = len(requests_made)
         successful = sum(1 for r in requests_made if r["success"])
@@ -201,8 +213,10 @@ class HistoricalBackfillService:
                 results[summary_type] = result
                 
                 # Aguardar entre diferentes tipos para evitar rate limit
-                # Mais tempo entre tipos diferentes (5s) pois são 12 tipos
-                await asyncio.sleep(5)
+                # Health API tem rate limit mais restritivo - usar 20s entre tipos
+                # São 12 tipos diferentes, então precisa ser muito conservador
+                # Garmin recomenda: não fazer polling - dados virão via webhooks automaticamente
+                await asyncio.sleep(20)
                 
             except Exception as e:
                 logger.error(f"Erro ao fazer backfill de {summary_type}: {e}")
