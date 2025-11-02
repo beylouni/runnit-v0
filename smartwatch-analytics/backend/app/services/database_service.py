@@ -160,6 +160,12 @@ class DatabaseService:
             garmin_user_id = activity_data.get('garmin_user_id') or activity_data.get('userId')
             if garmin_user_id:
                 user_id = self._ensure_user_exists(garmin_user_id)
+            else:
+                # Se não houver userId, usar um usuário padrão
+                # Isso permite receber webhooks de teste ou webhooks que não incluem userId
+                default_garmin_user_id = "default-user"
+                logger.warning(f"⚠️ userId não fornecido. Usando usuário padrão: {default_garmin_user_id}")
+                user_id = self._ensure_user_exists(default_garmin_user_id)
         
         if not user_id:
             logger.warning("⚠️ Não foi possível determinar user_id")
@@ -200,6 +206,20 @@ class DatabaseService:
                     except:
                         pass
                 
+                # Extrair e converter valores numéricos
+                duration_seconds = activity_data.get('duration_seconds') or activity_data.get('durationInSeconds')
+                distance_meters = activity_data.get('distance_meters') or activity_data.get('distanceInMeters')
+                avg_hr = activity_data.get('avg_heart_rate') or activity_data.get('averageHeartRateInBeatsPerMinute')
+                max_hr = activity_data.get('max_heart_rate') or activity_data.get('maxHeartRateInBeatsPerMinute')
+                calories = activity_data.get('total_calories') or activity_data.get('calories')
+                
+                # Garantir que são números ou None
+                duration_seconds = float(duration_seconds) if duration_seconds is not None else None
+                distance_meters = float(distance_meters) if distance_meters is not None else None
+                avg_hr = int(avg_hr) if avg_hr is not None else None
+                max_hr = int(max_hr) if max_hr is not None else None
+                calories = int(calories) if calories is not None else None
+                
                 # Inserir atividade
                 cur.execute("""
                     INSERT INTO activities (
@@ -231,14 +251,14 @@ class DatabaseService:
                     activity_data.get('sport') or activity_data.get('activityType') or 'running',
                     activity_data.get('sub_sport') or activity_data.get('subActivityType'),
                     start_time,
-                    activity_data.get('duration_seconds') or activity_data.get('durationInSeconds'),
-                    activity_data.get('distance_meters') or activity_data.get('distanceInMeters'),
-                    activity_data.get('avg_heart_rate') or activity_data.get('averageHeartRateInBeatsPerMinute'),
-                    activity_data.get('max_heart_rate') or activity_data.get('maxHeartRateInBeatsPerMinute'),
-                    activity_data.get('total_calories') or activity_data.get('calories'),
+                    duration_seconds,
+                    distance_meters,
+                    avg_hr,
+                    max_hr,
+                    calories,
                     activity_data.get('device_name') or activity_data.get('deviceName'),
                     activity_data.get('has_gps', True),
-                    activity_data.get('has_heart_rate', False)
+                    activity_data.get('has_heart_rate', avg_hr is not None)
                 ))
                 
                 activity_uuid = str(cur.fetchone()[0])
