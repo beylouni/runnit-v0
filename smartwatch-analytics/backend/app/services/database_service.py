@@ -4,13 +4,20 @@ Serviço de persistência no banco de dados PostgreSQL
 """
 
 import logging
-import psycopg2
-from psycopg2.extras import execute_values, Json
-from psycopg2.pool import SimpleConnectionPool
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import json
 from contextlib import contextmanager
+
+# Tentar importar psycopg2, mas não falhar se não estiver disponível
+try:
+    import psycopg2
+    from psycopg2.extras import execute_values, Json
+    from psycopg2.pool import SimpleConnectionPool
+    PSYCOPG2_AVAILABLE = True
+except ImportError:
+    PSYCOPG2_AVAILABLE = False
+    SimpleConnectionPool = None  # type: ignore
 
 from app.config import settings
 
@@ -23,6 +30,11 @@ _pool: Optional[SimpleConnectionPool] = None
 def get_connection_pool():
     """Cria ou retorna o pool de conexões"""
     global _pool
+    
+    if not PSYCOPG2_AVAILABLE:
+        logger.warning("⚠️ psycopg2 não está instalado. Persistência desabilitada. "
+                      "Instale com: pip install psycopg2-binary")
+        return None
     
     if _pool is None:
         if not settings.DATABASE_URL:

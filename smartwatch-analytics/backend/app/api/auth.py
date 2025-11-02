@@ -133,44 +133,20 @@ async def garmin_callback(request: Request, background_tasks: BackgroundTasks):
     del temp_auth_storage['code_verifier']
     del temp_auth_storage['state']
 
-    # ✅ Iniciar backfill histórico automaticamente em background
-    access_token_for_backfill = temp_auth_storage.get('access_token')
-    
-    async def start_backfill_task():
-        """Função assíncrona para iniciar backfill após autenticação"""
-        try:
-            if access_token_for_backfill:
-                logger.info("🔄 Iniciando backfill histórico automático...")
-                service = HistoricalBackfillService(access_token_for_backfill)
-                
-                # Backfill de atividades (2 anos - reduzido para evitar rate limit)
-                # Após backfill inicial, dados futuros virão automaticamente via webhooks
-                end_date = datetime.now().replace(tzinfo=datetime.now().astimezone().tzinfo)
-                start_date = end_date - timedelta(days=2 * 365)
-                await service.backfill_complete_activity_history(start_date, end_date)
-                
-                # Backfill de health data (1 ano - reduzido pois Health API é mais restritiva)
-                # Garmin faz PUSH automático via webhooks se usuário não sincronizar por dias
-                health_start = end_date - timedelta(days=1 * 365)
-                await service.backfill_all_health_data(health_start, end_date)
-                
-                logger.info("✅ Backfill histórico completo iniciado com sucesso")
-        except Exception as e:
-            logger.error(f"❌ Erro ao iniciar backfill automático: {e}")
-            import traceback
-            logger.error(traceback.format_exc())
-    
-    # Executar backfill em background (não bloqueia a resposta)
-    if access_token_for_backfill:
-        background_tasks.add_task(start_backfill_task)
+    # ✅ NÃO fazer backfill automático - deixar apenas via webhooks
+    # A Garmin já está enviando dados via webhooks automaticamente (vimos nos logs: 208.65.206.248)
+    # Fazer backfill manual apenas quando necessário, via endpoint /historical/*
+    # Isso evita rate limit e segue a recomendação da Garmin: "não fazer polling, apenas receber via webhooks"
+    logger.info("✅ Autenticação concluída. Dados serão recebidos via webhooks automaticamente.")
 
     return {
         "status": "success",
-        "message": "Autenticação com a Garmin realizada com sucesso! Backfill histórico iniciado automaticamente.",
+        "message": "Autenticação com a Garmin realizada com sucesso!",
         "access_token": "********", # Não exponha o token diretamente
         "scope": token_data.get('scope'),
-        "backfill": "iniciado",
-        "note": "Os dados históricos estão sendo solicitados da Garmin. Eles serão recebidos via webhooks e salvos automaticamente no banco de dados."
+        "webhooks": "ativo",
+        "note": "Os dados estão sendo recebidos automaticamente via webhooks da Garmin e salvos no banco de dados. "
+                "Para solicitar backfill histórico, use o endpoint /historical/* manualmente quando necessário."
     }
 
 @router.get("/status")
