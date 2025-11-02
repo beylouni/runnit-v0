@@ -36,6 +36,15 @@ except ImportError as e:
     logger.warning(f"⚠️ Sistema avançado não disponível: {e}")
     ENHANCED_SYSTEM_AVAILABLE = False
 
+# Import database service
+try:
+    from app.services.database_service import DatabaseService
+    DB_SERVICE_AVAILABLE = True
+    logger.info("✅ Database Service carregado")
+except ImportError as e:
+    logger.warning(f"⚠️ Database Service não disponível: {e}")
+    DB_SERVICE_AVAILABLE = False
+
 
 class WebhookProcessor:
     """Processador de webhooks da Garmin"""
@@ -43,6 +52,7 @@ class WebhookProcessor:
     def __init__(self):
         self.parser = EnhancedFITParser() if ENHANCED_SYSTEM_AVAILABLE else None
         self.metrics_engine = MetricsEngine() if ENHANCED_SYSTEM_AVAILABLE else None
+        self.db_service = DatabaseService() if DB_SERVICE_AVAILABLE else None
     
     async def process_activity_webhook(self, webhook_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -76,15 +86,37 @@ class WebhookProcessor:
                 # AQUI: Baixar arquivo FIT do callback_url
                 # fit_file_path = await self.download_fit_file(callback_url, activity_id)
                 
-                # Por enquanto, simular
+                # Preparar dados da atividade
+                activity_data = {
+                    'garmin_activity_id': str(activity_id),
+                    'activityId': str(activity_id),
+                    'garmin_user_id': activity.get('userId'),
+                    'activity_name': activity.get('activityName'),
+                    'activityName': activity.get('activityName'),
+                    'activity_type': activity.get('activityType'),
+                    'activityType': activity.get('activityType'),
+                    'startTimeInSeconds': activity.get('startTimeInSeconds'),
+                    'callbackURL': callback_url
+                }
+                
+                # Salvar no banco de dados
+                saved_activity_id = None
+                if self.db_service:
+                    try:
+                        saved_activity_id = self.db_service.save_activity(activity_data)
+                        logger.info(f"💾 Atividade salva no banco: {saved_activity_id}")
+                    except Exception as db_error:
+                        logger.error(f"❌ Erro ao salvar atividade no banco: {db_error}")
+                
                 activity_result = {
                     'activity_id': activity_id,
                     'callback_url': callback_url,
-                    'status': 'queued_for_processing',
+                    'status': 'saved_to_database' if saved_activity_id else 'queued_for_processing',
                     'activity_name': activity.get('activityName'),
                     'activity_type': activity.get('activityType'),
                     'start_time': activity.get('startTimeInSeconds'),
-                    'note': 'Webhook recebido. Processamento completo quando servidor de produção estiver ativo.'
+                    'database_id': saved_activity_id,
+                    'note': 'Webhook recebido e salvo no banco de dados.' if saved_activity_id else 'Webhook recebido. Aguardando processamento completo.'
                 }
                 
                 # Se tivéssemos o arquivo FIT:
@@ -135,16 +167,28 @@ class WebhookProcessor:
             'data_type': data_type,
             'status': 'queued_for_processing',
             'raw_data': webhook_data,
-            'note': 'Webhook recebido. Processamento completo quando servidor de produção estiver ativo.'
+            'saved_count': 0
         }
         
-        # AQUI: Implementar processamento específico por tipo
-        # Exemplo para dailies:
-        # if data_type == 'dailies':
-        #     for daily in webhook_data.get('dailies', []):
-        #         # Salvar no banco
-        #         # Calcular tendências
-        #         # Gerar insights
+        # Salvar dados de saúde no banco
+        if self.db_service:
+            try:
+                if data_type == 'dailies':
+                    dailies = webhook_data.get('dailies', [])
+                    saved_count = self.db_service.save_health_dailies(dailies)
+                    result['saved_count'] = saved_count
+                    result['status'] = 'saved_to_database' if saved_count > 0 else 'no_data_to_save'
+                    result['note'] = f'{saved_count} registros de dailies salvos no banco de dados.'
+                else:
+                    # Para outros tipos de health data, logar por enquanto
+                    result['note'] = f'Webhook {data_type} recebido. Persistência específica a ser implementada.'
+                    logger.info(f"📝 {data_type}: {len(webhook_data.get(data_type, []))} registros recebidos")
+            except Exception as db_error:
+                logger.error(f"❌ Erro ao salvar health data no banco: {db_error}")
+                result['error'] = str(db_error)
+                result['note'] = 'Erro ao salvar no banco de dados.'
+        else:
+            result['note'] = 'Database Service não disponível. Webhook recebido mas não persistido.'
         
         return result
 

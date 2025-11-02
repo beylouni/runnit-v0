@@ -8,12 +8,14 @@ import secrets
 import hashlib
 import base64
 import httpx
-from fastapi import APIRouter, HTTPException, Request
+from datetime import datetime, timedelta
+from fastapi import APIRouter, HTTPException, Request, BackgroundTasks
 from fastapi.responses import RedirectResponse
 from authlib.integrations.httpx_client import AsyncOAuth2Client
 
 from app.config import settings
 from app.services.garmin_service import temp_auth_storage
+from app.services.historical_backfill import HistoricalBackfillService
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -71,7 +73,7 @@ async def authorize_garmin():
     return RedirectResponse(url=authorization_url, status_code=302)
 
 @router.get("/garmin/callback")
-async def garmin_callback(request: Request):
+async def garmin_callback(request: Request, background_tasks: BackgroundTasks):
     """
     Callback do fluxo OAuth 2.0. A Garmin redireciona para cá após a autorização.
     Troca o código de autorização por um access token.
@@ -131,11 +133,42 @@ async def garmin_callback(request: Request):
     del temp_auth_storage['code_verifier']
     del temp_auth_storage['state']
 
+    # ✅ Iniciar backfill histórico automaticamente em background
+    access_token_for_backfill = temp_auth_storage.get('access_token')
+    
+    async def start_backfill_task():
+        """Função assíncrona para iniciar backfill após autenticação"""
+        try:
+            if access_token_for_backfill:
+                logger.info("🔄 Iniciando backfill histórico automático...")
+                service = HistoricalBackfillService(access_token_for_backfill)
+                
+                # Backfill de atividades (5 anos)
+                end_date = datetime.now().replace(tzinfo=datetime.now().astimezone().tzinfo)
+                start_date = end_date - timedelta(days=5 * 365)
+                await service.backfill_complete_activity_history(start_date, end_date)
+                
+                # Backfill de health data (2 anos)
+                health_start = end_date - timedelta(days=2 * 365)
+                await service.backfill_all_health_data(health_start, end_date)
+                
+                logger.info("✅ Backfill histórico completo iniciado com sucesso")
+        except Exception as e:
+            logger.error(f"❌ Erro ao iniciar backfill automático: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+    
+    # Executar backfill em background (não bloqueia a resposta)
+    if access_token_for_backfill:
+        background_tasks.add_task(start_backfill_task)
+
     return {
         "status": "success",
-        "message": "Autenticação com a Garmin realizada com sucesso!",
+        "message": "Autenticação com a Garmin realizada com sucesso! Backfill histórico iniciado automaticamente.",
         "access_token": "********", # Não exponha o token diretamente
-        "scope": token_data.get('scope')
+        "scope": token_data.get('scope'),
+        "backfill": "iniciado",
+        "note": "Os dados históricos estão sendo solicitados da Garmin. Eles serão recebidos via webhooks e salvos automaticamente no banco de dados."
     }
 
 @router.get("/status")
