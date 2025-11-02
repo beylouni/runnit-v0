@@ -17,7 +17,7 @@ from datetime import datetime
 from app.config import settings
 
 # Importar routers
-from app.api import workouts, activities, auth, webhooks, analytics, maps, historical, database_init
+from app.api import workouts, activities, auth, webhooks, analytics, maps, historical, database_init, data_query
 from app.services.garmin_service import GarminService
 
 # Configuração de logging
@@ -54,6 +54,7 @@ app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 app.include_router(maps.router, prefix="/maps", tags=["Mapas e GPS"])
 app.include_router(historical.router, prefix="/historical", tags=["Backfill Histórico"])
 app.include_router(database_init.router, prefix="/db", tags=["Database"])
+app.include_router(data_query.router, prefix="/data", tags=["Consulta de Dados"])
 
 @app.get("/")
 async def root():
