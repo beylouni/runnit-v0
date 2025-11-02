@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Backend API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://smartwatch:smartwatch@db:5432/smartwatch_analytics
+      - ENVIRONMENT=production
+    env_file:
+      - .env
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=smartwatch
+      - POSTGRES_PASSWORD=smartwatch
+      - POSTGRES_DB=smartwatch_analytics
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/app/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: unless-stopped
+
+  # Redis (optional - for caching)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+

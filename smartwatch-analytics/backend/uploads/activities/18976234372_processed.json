@@ -1,0 +1,1164 @@
+{
+  "activity_id": "18976234372",
+  "fit_file_path": "uploads/activities/18976234372.fit",
+  "processed_at": "2025-10-25T11:09:04.612305",
+  "system_version": "enhanced",
+  "enhanced_data": {
+    "file_info": {
+      "type": "activity",
+      "manufacturer": "garmin",
+      "product": 3077,
+      "product_name": null,
+      "serial_number": 3332692696,
+      "time_created": "2025-04-29 21:29:58+00:00",
+      "number": null
+    },
+    "device_info": [
+      {
+        "device_index": "creator",
+        "device_type": null,
+        "manufacturer": "garmin",
+        "product": 3077,
+        "product_name": null,
+        "serial_number": 3332692696,
+        "software_version": 13.7,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 1,
+        "device_type": 3,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": null,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 2,
+        "device_type": 10,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 0.05,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 3,
+        "device_type": 12,
+        "manufacturer": "garmin",
+        "product": 3079,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 18.04,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": "creator",
+        "device_type": null,
+        "manufacturer": "garmin",
+        "product": 3077,
+        "product_name": null,
+        "serial_number": 3332692696,
+        "software_version": 13.7,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 1,
+        "device_type": 3,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": null,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 2,
+        "device_type": 10,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 0.05,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 3,
+        "device_type": 12,
+        "manufacturer": "garmin",
+        "product": 3079,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 18.04,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:29:58+00:00"
+      },
+      {
+        "device_index": 4,
+        "device_type": 0,
+        "manufacturer": "garmin",
+        "product": 4197,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 6.6,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:32:53+00:00"
+      },
+      {
+        "device_index": "creator",
+        "device_type": null,
+        "manufacturer": "garmin",
+        "product": 3077,
+        "product_name": null,
+        "serial_number": 3332692696,
+        "software_version": 13.7,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:33:37+00:00"
+      },
+      {
+        "device_index": 4,
+        "device_type": 0,
+        "manufacturer": "garmin",
+        "product": 4197,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 6.6,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:33:37+00:00"
+      },
+      {
+        "device_index": 1,
+        "device_type": 3,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": null,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:33:37+00:00"
+      },
+      {
+        "device_index": 2,
+        "device_type": 10,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 0.05,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:33:37+00:00"
+      },
+      {
+        "device_index": 3,
+        "device_type": 12,
+        "manufacturer": "garmin",
+        "product": 3079,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 18.04,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:33:37+00:00"
+      },
+      {
+        "device_index": "creator",
+        "device_type": null,
+        "manufacturer": "garmin",
+        "product": 3077,
+        "product_name": null,
+        "serial_number": 3332692696,
+        "software_version": 13.7,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:44:41+00:00"
+      },
+      {
+        "device_index": 4,
+        "device_type": 0,
+        "manufacturer": "garmin",
+        "product": 4197,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 6.6,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:44:41+00:00"
+      },
+      {
+        "device_index": 1,
+        "device_type": 3,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": null,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:44:41+00:00"
+      },
+      {
+        "device_index": 2,
+        "device_type": 10,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 0.05,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:44:41+00:00"
+      },
+      {
+        "device_index": 3,
+        "device_type": 12,
+        "manufacturer": "garmin",
+        "product": 3079,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 18.04,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 21:44:41+00:00"
+      },
+      {
+        "device_index": "creator",
+        "device_type": null,
+        "manufacturer": "garmin",
+        "product": 3077,
+        "product_name": null,
+        "serial_number": 3332692696,
+        "software_version": 13.7,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 22:04:53+00:00"
+      },
+      {
+        "device_index": 4,
+        "device_type": 0,
+        "manufacturer": "garmin",
+        "product": 4197,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 6.6,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 22:04:53+00:00"
+      },
+      {
+        "device_index": 1,
+        "device_type": 3,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": null,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 22:04:53+00:00"
+      },
+      {
+        "device_index": 2,
+        "device_type": 10,
+        "manufacturer": null,
+        "product": null,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 0.05,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 22:04:53+00:00"
+      },
+      {
+        "device_index": 3,
+        "device_type": 12,
+        "manufacturer": "garmin",
+        "product": 3079,
+        "product_name": null,
+        "serial_number": null,
+        "software_version": 18.04,
+        "hardware_version": null,
+        "cum_operating_time": null,
+        "battery_status": null,
+        "battery_voltage": null,
+        "ant_device_number": null,
+        "source_type": "local",
+        "timestamp": "2025-04-29 22:04:53+00:00"
+      }
+    ],
+    "activity_summary": {
+      "timestamp": "2025-04-29 22:05:06+00:00",
+      "total_timer_time": 1806.183,
+      "num_sessions": 1,
+      "type": "manual",
+      "event": "activity",
+      "event_type": "stop",
+      "local_timestamp": 1114887906,
+      "event_group": null
+    },
+    "sessions": [
+      {
+        "timestamp": "2025-04-29 22:05:06+00:00",
+        "start_time": "2025-04-29 21:29:58+00:00",
+        "start_position_lat": -281588272,
+        "start_position_long": -556689747,
+        "total_elapsed_time": 2094.932,
+        "total_timer_time": 1806.183,
+        "total_distance": 4862.26,
+        "total_cycles": 2420,
+        "nec_lat": -281328721,
+        "nec_long": -556673153,
+        "swc_lat": -281588272,
+        "swc_long": -556726238,
+        "end_position_lat": -281486468,
+        "end_position_long": -556682534,
+        "sport_profile_name": "Corrida",
+        "enhanced_avg_speed": 2.692,
+        "enhanced_max_speed": 3.275,
+        "152": 0,
+        "message_index": 0,
+        "total_calories": 406,
+        "total_ascent": 146,
+        "total_descent": 169,
+        "first_lap_index": 0,
+        "num_laps": 6,
+        "151": 0,
+        "178": 180,
+        "196": 52,
+        "event": "lap",
+        "event_type": "stop",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_heart_rate": 133,
+        "max_heart_rate": 153,
+        "avg_cadence": 79,
+        "max_cadence": 85,
+        "total_training_effect": 2.8,
+        "trigger": "activity_end",
+        "81": 0,
+        "avg_fractional_cadence": 0.609375,
+        "max_fractional_cadence": 0.0,
+        "total_anaerobic_training_effect": 0.0,
+        "138": [
+          1,
+          0
+        ],
+        "184": 0,
+        "workout_feel": 0,
+        "workout_rpe": 90,
+        "total_fractional_ascent": 0.87,
+        "total_fractional_descent": 0.08,
+        "total_strides": 2420,
+        "avg_running_cadence": 79,
+        "max_running_cadence": 85
+      }
+    ],
+    "laps": [
+      {
+        "timestamp": "2025-04-29 21:40:11+00:00",
+        "start_time": "2025-04-29 21:29:58+00:00",
+        "start_position_lat": -281588272,
+        "start_position_long": -556689747,
+        "end_position_lat": -281510609,
+        "end_position_long": -556721668,
+        "total_elapsed_time": 613.048,
+        "total_timer_time": 428.203,
+        "total_distance": 1000.0,
+        "total_cycles": 564,
+        "27": -281510609,
+        "28": -556673153,
+        "29": -281588272,
+        "30": -556721668,
+        "enhanced_avg_speed": 2.335,
+        "enhanced_max_speed": 2.529,
+        "message_index": 0,
+        "total_calories": 78,
+        "total_ascent": 68,
+        "total_descent": 85,
+        "wkt_step_index": 0,
+        "145": 42,
+        "155": 12,
+        "event": "lap",
+        "event_type": "stop",
+        "avg_heart_rate": 119,
+        "max_heart_rate": 137,
+        "avg_cadence": 76,
+        "max_cadence": 82,
+        "lap_trigger": "distance",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_fractional_cadence": 0.9765625,
+        "max_fractional_cadence": 0.0,
+        "total_fractional_ascent": 0.71,
+        "total_fractional_descent": 0.93,
+        "total_strides": 564,
+        "avg_running_cadence": 76,
+        "max_running_cadence": 82
+      },
+      {
+        "timestamp": "2025-04-29 21:48:32+00:00",
+        "start_time": "2025-04-29 21:40:12+00:00",
+        "start_position_lat": -281510409,
+        "start_position_long": -556721860,
+        "end_position_lat": -281442486,
+        "end_position_long": -556702074,
+        "total_elapsed_time": 500.247,
+        "total_timer_time": 396.343,
+        "total_distance": 1000.0,
+        "total_cycles": 521,
+        "27": -281442486,
+        "28": -556675737,
+        "29": -281510409,
+        "30": -556726238,
+        "enhanced_avg_speed": 2.523,
+        "enhanced_max_speed": 2.921,
+        "message_index": 1,
+        "total_calories": 80,
+        "total_ascent": 31,
+        "total_descent": 33,
+        "wkt_step_index": 0,
+        "145": 40,
+        "155": 11,
+        "event": "lap",
+        "event_type": "stop",
+        "avg_heart_rate": 128,
+        "max_heart_rate": 144,
+        "avg_cadence": 76,
+        "max_cadence": 82,
+        "lap_trigger": "distance",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_fractional_cadence": 0.5703125,
+        "max_fractional_cadence": 0.0,
+        "total_fractional_ascent": 0.62,
+        "total_fractional_descent": 0.4,
+        "total_strides": 521,
+        "avg_running_cadence": 76,
+        "max_running_cadence": 82
+      },
+      {
+        "timestamp": "2025-04-29 21:54:32+00:00",
+        "start_time": "2025-04-29 21:48:33+00:00",
+        "start_position_lat": -281442234,
+        "start_position_long": -556702343,
+        "end_position_lat": -281339285,
+        "end_position_long": -556704038,
+        "total_elapsed_time": 360.044,
+        "total_timer_time": 360.044,
+        "total_distance": 1000.0,
+        "total_cycles": 484,
+        "27": -281339285,
+        "28": -556702343,
+        "29": -281442234,
+        "30": -556713240,
+        "enhanced_avg_speed": 2.777,
+        "enhanced_max_speed": 2.939,
+        "message_index": 2,
+        "total_calories": 90,
+        "total_ascent": 16,
+        "total_descent": 14,
+        "wkt_step_index": 0,
+        "145": 36,
+        "155": 10,
+        "event": "lap",
+        "event_type": "stop",
+        "avg_heart_rate": 137,
+        "max_heart_rate": 143,
+        "avg_cadence": 81,
+        "max_cadence": 83,
+        "lap_trigger": "distance",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_fractional_cadence": 0.0703125,
+        "max_fractional_cadence": 0.0,
+        "total_fractional_ascent": 0.59,
+        "total_fractional_descent": 0.16,
+        "total_strides": 484,
+        "avg_running_cadence": 81,
+        "max_running_cadence": 83
+      },
+      {
+        "timestamp": "2025-04-29 22:00:12+00:00",
+        "start_time": "2025-04-29 21:54:33+00:00",
+        "start_position_lat": -281338968,
+        "start_position_long": -556703978,
+        "end_position_lat": -281411238,
+        "end_position_long": -556711880,
+        "total_elapsed_time": 340.282,
+        "total_timer_time": 340.282,
+        "total_distance": 1000.0,
+        "total_cycles": 462,
+        "27": -281328721,
+        "28": -556690320,
+        "29": -281411238,
+        "30": -556712988,
+        "enhanced_avg_speed": 2.939,
+        "enhanced_max_speed": 3.116,
+        "message_index": 3,
+        "total_calories": 82,
+        "total_ascent": 15,
+        "total_descent": 23,
+        "wkt_step_index": 0,
+        "145": 34,
+        "155": 10,
+        "event": "lap",
+        "event_type": "stop",
+        "avg_heart_rate": 141,
+        "max_heart_rate": 152,
+        "avg_cadence": 81,
+        "max_cadence": 84,
+        "lap_trigger": "distance",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_fractional_cadence": 0.71875,
+        "max_fractional_cadence": 0.0,
+        "total_fractional_ascent": 0.12,
+        "total_fractional_descent": 0.48,
+        "total_strides": 462,
+        "avg_running_cadence": 81,
+        "max_running_cadence": 84
+      },
+      {
+        "timestamp": "2025-04-29 22:04:47+00:00",
+        "start_time": "2025-04-29 22:00:13+00:00",
+        "start_position_lat": -281411581,
+        "start_position_long": -556711810,
+        "end_position_lat": -281485909,
+        "end_position_long": -556681323,
+        "total_elapsed_time": 275.128,
+        "total_timer_time": 275.128,
+        "total_distance": 849.01,
+        "total_cycles": 384,
+        "27": -281411581,
+        "28": -556675326,
+        "29": -281485909,
+        "30": -556711810,
+        "enhanced_avg_speed": 3.086,
+        "enhanced_max_speed": 3.275,
+        "message_index": 4,
+        "total_calories": 73,
+        "total_ascent": 13,
+        "total_descent": 11,
+        "wkt_step_index": 0,
+        "145": 28,
+        "155": 8,
+        "event": "lap",
+        "event_type": "stop",
+        "avg_heart_rate": 146,
+        "max_heart_rate": 153,
+        "avg_cadence": 83,
+        "max_cadence": 85,
+        "lap_trigger": "time",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_fractional_cadence": 0.53125,
+        "max_fractional_cadence": 0.0,
+        "total_fractional_ascent": 0.79,
+        "total_fractional_descent": 0.22,
+        "total_strides": 384,
+        "avg_running_cadence": 83,
+        "max_running_cadence": 85
+      },
+      {
+        "timestamp": "2025-04-29 22:05:06+00:00",
+        "start_time": "2025-04-29 22:04:48+00:00",
+        "start_position_lat": -281485979,
+        "start_position_long": -556681660,
+        "end_position_lat": -281486468,
+        "end_position_long": -556682534,
+        "total_elapsed_time": 6.183,
+        "total_timer_time": 6.183,
+        "total_distance": 13.26,
+        "total_cycles": 5,
+        "27": -281485979,
+        "28": -556681660,
+        "29": -281486468,
+        "30": -556682534,
+        "enhanced_avg_speed": 2.144,
+        "enhanced_max_speed": 2.921,
+        "message_index": 5,
+        "total_calories": 2,
+        "total_ascent": 1,
+        "total_descent": 0,
+        "145": 0,
+        "155": 0,
+        "event": "lap",
+        "event_type": "stop",
+        "avg_heart_rate": 143,
+        "max_heart_rate": 144,
+        "avg_cadence": 82,
+        "max_cadence": 83,
+        "lap_trigger": "session_end",
+        "sport": "running",
+        "sub_sport": "generic",
+        "avg_fractional_cadence": 0.1640625,
+        "max_fractional_cadence": 0.0,
+        "total_fractional_ascent": 0.15,
+        "total_fractional_descent": 0.0,
+        "total_strides": 5,
+        "avg_running_cadence": 82,
+        "max_running_cadence": 83
+      }
+    ],
+    "records_count": 459,
+    "events_count": 9,
+    "hrv_available": false
+  },
+  "advanced_metrics": {
+    "basic_stats": {
+      "sport": "running",
+      "sub_sport": "generic",
+      "start_time": "2025-04-29 21:29:58+00:00",
+      "duration_seconds": 1806.183,
+      "duration_formatted": "00:30:06",
+      "distance_meters": 4862.26,
+      "distance_km": 4.86,
+      "distance_miles": 3.02,
+      "total_calories": 406,
+      "avg_heart_rate": 133,
+      "max_heart_rate": 153,
+      "total_ascent": 146,
+      "total_descent": 169
+    },
+    "heart_rate_analysis": {
+      "avg": 130.4,
+      "max": 153,
+      "min": 76,
+      "median": 135,
+      "std_dev": 15.12,
+      "zones": {
+        "zone1": {
+          "name": "Recovery",
+          "range": [
+            0,
+            91.8
+          ],
+          "count": 15,
+          "percentage": 3.3
+        },
+        "zone2": {
+          "name": "Endurance",
+          "range": [
+            91.8,
+            107.1
+          ],
+          "count": 27,
+          "percentage": 5.9
+        },
+        "zone3": {
+          "name": "Tempo",
+          "range": [
+            107.1,
+            122.4
+          ],
+          "count": 90,
+          "percentage": 19.6
+        },
+        "zone4": {
+          "name": "Threshold",
+          "range": [
+            122.4,
+            137.70000000000002
+          ],
+          "count": 148,
+          "percentage": 32.2
+        },
+        "zone5": {
+          "name": "VO2 Max",
+          "range": [
+            137.70000000000002,
+            153
+          ],
+          "count": 178,
+          "percentage": 38.8
+        }
+      },
+      "hr_drift_percent": 16.42,
+      "time_in_zones": {
+        "zone1_seconds": 15,
+        "zone2_seconds": 27,
+        "zone3_seconds": 90,
+        "zone4_seconds": 148,
+        "zone5_seconds": 179
+      }
+    },
+    "pace_speed_analysis": {
+      "avg_speed_ms": 2.692,
+      "avg_speed_kmh": 9.69,
+      "avg_speed_mph": 6.02,
+      "max_speed_ms": 3.275,
+      "max_speed_kmh": 11.79,
+      "max_speed_mph": 7.33,
+      "avg_pace_min_per_km": "06:11",
+      "avg_pace_min_per_mile": "09:57",
+      "speed_variability": 0.431,
+      "consistency_score": 83.24
+    },
+    "elevation_analysis": {
+      "total_ascent": 146,
+      "total_descent": 169,
+      "avg_altitude": null,
+      "max_altitude": null,
+      "min_altitude": null,
+      "avg_grade": null,
+      "max_pos_grade": null,
+      "max_neg_grade": null,
+      "altitude_variability": 8.8
+    },
+    "cadence_analysis": {
+      "avg_cadence": 79,
+      "max_cadence": 85,
+      "cadence_std_dev": 1.89,
+      "cadence_consistency": 97.66
+    },
+    "power_analysis": {
+      "avg_power": null,
+      "max_power": null,
+      "normalized_power": null,
+      "training_stress_score": null,
+      "intensity_factor": null,
+      "total_work": null
+    },
+    "running_dynamics": {
+      "vertical_oscillation": null,
+      "vertical_ratio": null,
+      "stance_time": null,
+      "stance_time_percent": null,
+      "stance_time_balance": null,
+      "step_length": null,
+      "total_steps": null
+    },
+    "splits": [
+      {
+        "lap_number": 1,
+        "distance": 1000.0,
+        "time": 428.203,
+        "avg_heart_rate": 119,
+        "avg_speed": 2.335,
+        "avg_cadence": 76,
+        "total_ascent": 68,
+        "total_calories": 78,
+        "pace_min_per_km": "07:08"
+      },
+      {
+        "lap_number": 2,
+        "distance": 1000.0,
+        "time": 396.343,
+        "avg_heart_rate": 128,
+        "avg_speed": 2.523,
+        "avg_cadence": 76,
+        "total_ascent": 31,
+        "total_calories": 80,
+        "pace_min_per_km": "06:36"
+      },
+      {
+        "lap_number": 3,
+        "distance": 1000.0,
+        "time": 360.044,
+        "avg_heart_rate": 137,
+        "avg_speed": 2.777,
+        "avg_cadence": 81,
+        "total_ascent": 16,
+        "total_calories": 90,
+        "pace_min_per_km": "06:00"
+      },
+      {
+        "lap_number": 4,
+        "distance": 1000.0,
+        "time": 340.282,
+        "avg_heart_rate": 141,
+        "avg_speed": 2.939,
+        "avg_cadence": 81,
+        "total_ascent": 15,
+        "total_calories": 82,
+        "pace_min_per_km": "05:40"
+      },
+      {
+        "lap_number": 5,
+        "distance": 849.01,
+        "time": 275.128,
+        "avg_heart_rate": 146,
+        "avg_speed": 3.086,
+        "avg_cadence": 83,
+        "total_ascent": 13,
+        "total_calories": 73,
+        "pace_min_per_km": "05:24"
+      },
+      {
+        "lap_number": 6,
+        "distance": 13.26,
+        "time": 6.183,
+        "avg_heart_rate": 143,
+        "avg_speed": 2.144,
+        "avg_cadence": 82,
+        "total_ascent": 1,
+        "total_calories": 2,
+        "pace_min_per_km": "07:46"
+      }
+    ],
+    "zones": {},
+    "efficiency_metrics": {
+      "aerobic_efficiency": 0.0729,
+      "calories_per_km": 83.5
+    },
+    "fatigue_analysis": {
+      "hr_progression": [
+        {
+          "quartile": 1,
+          "avg_hr": 113.6
+        },
+        {
+          "quartile": 2,
+          "avg_hr": 127.4
+        },
+        {
+          "quartile": 3,
+          "avg_hr": 135.3
+        },
+        {
+          "quartile": 4,
+          "avg_hr": 145.0
+        }
+      ],
+      "speed_progression": [
+        {
+          "quartile": 1,
+          "avg_speed_kmh": 7.34
+        },
+        {
+          "quartile": 2,
+          "avg_speed_kmh": 8.81
+        },
+        {
+          "quartile": 3,
+          "avg_speed_kmh": 9.98
+        },
+        {
+          "quartile": 4,
+          "avg_speed_kmh": 10.78
+        }
+      ],
+      "fatigue_index_percent": -46.87
+    },
+    "performance_score": {
+      "training_effect": 2.8,
+      "anaerobic_training_effect": 0.0,
+      "training_stress_score": null,
+      "overall_score": 56.0
+    }
+  },
+  "summary": {
+    "sport": "running",
+    "start_time": "2025-04-29 21:29:58+00:00",
+    "duration_seconds": 1806.183,
+    "duration_formatted": "00:30:06",
+    "distance_meters": 4862.26,
+    "distance_km": 4.86,
+    "avg_speed_kmh": 9.69,
+    "avg_pace_min_per_km": "06:11",
+    "total_calories": 406,
+    "avg_heart_rate": 133,
+    "max_heart_rate": 153,
+    "total_ascent": 146,
+    "total_descent": 169
+  },
+  "detailed_metrics": {
+    "basic_stats": {
+      "sport": "running",
+      "sub_sport": "generic",
+      "start_time": "2025-04-29 21:29:58+00:00",
+      "duration_seconds": 1806.183,
+      "duration_formatted": "00:30:06",
+      "distance_meters": 4862.26,
+      "distance_km": 4.86,
+      "distance_miles": 3.02,
+      "total_calories": 406,
+      "avg_heart_rate": 133,
+      "max_heart_rate": 153,
+      "total_ascent": 146,
+      "total_descent": 169
+    },
+    "heart_rate": {
+      "avg": 130.4,
+      "max": 153,
+      "min": 76,
+      "median": 135,
+      "std_dev": 15.12,
+      "zones": {
+        "zone1": {
+          "name": "Recovery",
+          "range": [
+            0,
+            91.8
+          ],
+          "count": 15,
+          "percentage": 3.3
+        },
+        "zone2": {
+          "name": "Endurance",
+          "range": [
+            91.8,
+            107.1
+          ],
+          "count": 27,
+          "percentage": 5.9
+        },
+        "zone3": {
+          "name": "Tempo",
+          "range": [
+            107.1,
+            122.4
+          ],
+          "count": 90,
+          "percentage": 19.6
+        },
+        "zone4": {
+          "name": "Threshold",
+          "range": [
+            122.4,
+            137.70000000000002
+          ],
+          "count": 148,
+          "percentage": 32.2
+        },
+        "zone5": {
+          "name": "VO2 Max",
+          "range": [
+            137.70000000000002,
+            153
+          ],
+          "count": 178,
+          "percentage": 38.8
+        }
+      },
+      "hr_drift_percent": 16.42,
+      "time_in_zones": {
+        "zone1_seconds": 15,
+        "zone2_seconds": 27,
+        "zone3_seconds": 90,
+        "zone4_seconds": 148,
+        "zone5_seconds": 179
+      }
+    },
+    "pace_speed": {
+      "avg_speed_ms": 2.692,
+      "avg_speed_kmh": 9.69,
+      "avg_speed_mph": 6.02,
+      "max_speed_ms": 3.275,
+      "max_speed_kmh": 11.79,
+      "max_speed_mph": 7.33,
+      "avg_pace_min_per_km": "06:11",
+      "avg_pace_min_per_mile": "09:57",
+      "speed_variability": 0.431,
+      "consistency_score": 83.24
+    },
+    "elevation": {
+      "total_ascent": 146,
+      "total_descent": 169,
+      "avg_altitude": null,
+      "max_altitude": null,
+      "min_altitude": null,
+      "avg_grade": null,
+      "max_pos_grade": null,
+      "max_neg_grade": null,
+      "altitude_variability": 8.8
+    },
+    "cadence": {
+      "avg_cadence": 79,
+      "max_cadence": 85,
+      "cadence_std_dev": 1.89,
+      "cadence_consistency": 97.66
+    },
+    "power": {
+      "avg_power": null,
+      "max_power": null,
+      "normalized_power": null,
+      "training_stress_score": null,
+      "intensity_factor": null,
+      "total_work": null
+    },
+    "running_dynamics": {
+      "vertical_oscillation": null,
+      "vertical_ratio": null,
+      "stance_time": null,
+      "stance_time_percent": null,
+      "stance_time_balance": null,
+      "step_length": null,
+      "total_steps": null
+    },
+    "fatigue": {
+      "hr_progression": [
+        {
+          "quartile": 1,
+          "avg_hr": 113.6
+        },
+        {
+          "quartile": 2,
+          "avg_hr": 127.4
+        },
+        {
+          "quartile": 3,
+          "avg_hr": 135.3
+        },
+        {
+          "quartile": 4,
+          "avg_hr": 145.0
+        }
+      ],
+      "speed_progression": [
+        {
+          "quartile": 1,
+          "avg_speed_kmh": 7.34
+        },
+        {
+          "quartile": 2,
+          "avg_speed_kmh": 8.81
+        },
+        {
+          "quartile": 3,
+          "avg_speed_kmh": 9.98
+        },
+        {
+          "quartile": 4,
+          "avg_speed_kmh": 10.78
+        }
+      ],
+      "fatigue_index_percent": -46.87
+    },
+    "performance": {
+      "training_effect": 2.8,
+      "anaerobic_training_effect": 0.0,
+      "training_stress_score": null,
+      "overall_score": 56.0
+    },
+    "efficiency": {
+      "aerobic_efficiency": 0.0729,
+      "calories_per_km": 83.5
+    }
+  },
+  "insights": [
+    {
+      "type": "warning",
+      "category": "cardiovascular",
+      "message": "HR Drift de 16.42% indica que voc\u00ea come\u00e7ou muito forte. Considere um aquecimento mais longo para melhorar efici\u00eancia."
+    },
+    {
+      "type": "positive",
+      "category": "performance",
+      "message": "Strong finish! Voc\u00ea acelerou no final (fatigue index: -46.87%). Excelente gest\u00e3o de energia."
+    }
+  ]
+}
