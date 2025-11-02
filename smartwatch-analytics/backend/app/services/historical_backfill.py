@@ -70,7 +70,9 @@ class HistoricalBackfillService:
             current_start = current_end
             
             # Rate limit: aguardar 1 segundo entre requisições para evitar 429
-            await asyncio.sleep(1)
+            # Free tier: 100 req/min = mínimo 0.6s entre requisições
+            # Usando 2s para margem de segurança
+            await asyncio.sleep(2)
         
         total_requests = len(requests_made)
         successful = sum(1 for r in requests_made if r["success"])
@@ -134,8 +136,9 @@ class HistoricalBackfillService:
             # Avançar para o próximo chunk
             current_start = current_end
             
-            # Rate limit: aguardar 1 segundo entre requisições
-            await asyncio.sleep(1)
+            # Rate limit: aguardar 2 segundos entre requisições para evitar 429
+            # Free tier: 100 req/min = mínimo 0.6s entre requisições
+            await asyncio.sleep(2)
         
         total_requests = len(requests_made)
         successful = sum(1 for r in requests_made if r["success"])
@@ -198,7 +201,8 @@ class HistoricalBackfillService:
                 results[summary_type] = result
                 
                 # Aguardar entre diferentes tipos para evitar rate limit
-                await asyncio.sleep(2)
+                # Mais tempo entre tipos diferentes (5s) pois são 12 tipos
+                await asyncio.sleep(5)
                 
             except Exception as e:
                 logger.error(f"Erro ao fazer backfill de {summary_type}: {e}")
@@ -217,83 +221,125 @@ class HistoricalBackfillService:
     async def _request_activity_backfill_chunk(
         self,
         start_date: datetime,
-        end_date: datetime
+        end_date: datetime,
+        max_retries: int = 3
     ) -> bool:
         """Faz uma requisição de backfill de atividades para um período de 30 dias"""
-        try:
-            backfill_url = f"{settings.GARMIN_ACTIVITY_API_URL}/backfill/activities"
-            params = {
-                "summaryStartTimeInSeconds": int(start_date.timestamp()),
-                "summaryEndTimeInSeconds": int(end_date.timestamp())
-            }
-            
-            logger.info(f"Solicitando backfill de atividades: {start_date.date()} a {end_date.date()}")
-            
-            async with httpx.AsyncClient() as client:
-                response = await client.get(
-                    backfill_url,
-                    headers=self.headers,
-                    params=params,
-                    timeout=30.0
-                )
+        backfill_url = f"{settings.GARMIN_ACTIVITY_API_URL}/backfill/activities"
+        params = {
+            "summaryStartTimeInSeconds": int(start_date.timestamp()),
+            "summaryEndTimeInSeconds": int(end_date.timestamp())
+        }
+        
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"Solicitando backfill de atividades: {start_date.date()} a {end_date.date()}")
                 
-                if response.status_code == 202:
-                    logger.info(f"✅ Backfill aceito: {start_date.date()} a {end_date.date()}")
-                    return True
-                elif response.status_code == 409:
-                    logger.warning(f"⚠️ Backfill duplicado (já foi solicitado): {start_date.date()} a {end_date.date()}")
-                    return True  # Consideramos sucesso pois o backfill já foi feito
-                else:
-                    logger.error(f"❌ Erro no backfill: {response.status_code} - {response.text}")
-                    response.raise_for_status()
-                    return False
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(
+                        backfill_url,
+                        headers=self.headers,
+                        params=params,
+                        timeout=30.0
+                    )
                     
-        except httpx.HTTPStatusError as e:
-            logger.error(f"Erro HTTP ao solicitar backfill: {e.response.status_code} - {e.response.text}")
-            return False
-        except Exception as e:
-            logger.error(f"Exceção ao solicitar backfill: {e}")
-            return False
+                    if response.status_code == 202:
+                        logger.info(f"✅ Backfill aceito: {start_date.date()} a {end_date.date()}")
+                        return True
+                    elif response.status_code == 409:
+                        logger.warning(f"⚠️ Backfill duplicado (já foi solicitado): {start_date.date()} a {end_date.date()}")
+                        return True  # Consideramos sucesso pois o backfill já foi feito
+                    elif response.status_code == 429:
+                        # Rate limit - aguardar e tentar novamente
+                        wait_time = (2 ** attempt) * 5  # 5s, 10s, 20s
+                        logger.warning(f"⏳ Rate limit atingido. Aguardando {wait_time}s antes de tentar novamente (tentativa {attempt + 1}/{max_retries})...")
+                        await asyncio.sleep(wait_time)
+                        continue
+                    else:
+                        logger.error(f"❌ Erro no backfill: {response.status_code} - {response.text}")
+                        if attempt == max_retries - 1:
+                            return False
+                        await asyncio.sleep(2)
+                        continue
+                        
+            except httpx.HTTPStatusError as e:
+                if e.response.status_code == 429:
+                    wait_time = (2 ** attempt) * 5
+                    logger.warning(f"⏳ Rate limit (HTTP). Aguardando {wait_time}s...")
+                    await asyncio.sleep(wait_time)
+                    continue
+                logger.error(f"Erro HTTP ao solicitar backfill: {e.response.status_code} - {e.response.text}")
+                if attempt == max_retries - 1:
+                    return False
+                await asyncio.sleep(2)
+            except Exception as e:
+                logger.error(f"Exceção ao solicitar backfill: {e}")
+                if attempt == max_retries - 1:
+                    return False
+                await asyncio.sleep(2)
+        
+        return False
     
     async def _request_health_backfill_chunk(
         self,
         summary_type: str,
         start_date: datetime,
-        end_date: datetime
+        end_date: datetime,
+        max_retries: int = 3
     ) -> bool:
         """Faz uma requisição de backfill de health data para um período de 90 dias"""
-        try:
-            backfill_url = f"https://apis.garmin.com/wellness-api/rest/backfill/{summary_type}"
-            params = {
-                "summaryStartTimeInSeconds": int(start_date.timestamp()),
-                "summaryEndTimeInSeconds": int(end_date.timestamp())
-            }
-            
-            logger.info(f"Solicitando backfill de {summary_type}: {start_date.date()} a {end_date.date()}")
-            
-            async with httpx.AsyncClient() as client:
-                response = await client.get(
-                    backfill_url,
-                    headers=self.headers,
-                    params=params,
-                    timeout=30.0
-                )
+        backfill_url = f"https://apis.garmin.com/wellness-api/rest/backfill/{summary_type}"
+        params = {
+            "summaryStartTimeInSeconds": int(start_date.timestamp()),
+            "summaryEndTimeInSeconds": int(end_date.timestamp())
+        }
+        
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"Solicitando backfill de {summary_type}: {start_date.date()} a {end_date.date()}")
                 
-                if response.status_code == 202:
-                    logger.info(f"✅ Backfill de {summary_type} aceito: {start_date.date()} a {end_date.date()}")
-                    return True
-                elif response.status_code == 409:
-                    logger.warning(f"⚠️ Backfill duplicado de {summary_type}: {start_date.date()} a {end_date.date()}")
-                    return True
-                else:
-                    logger.error(f"❌ Erro no backfill de {summary_type}: {response.status_code} - {response.text}")
-                    response.raise_for_status()
-                    return False
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(
+                        backfill_url,
+                        headers=self.headers,
+                        params=params,
+                        timeout=30.0
+                    )
                     
-        except httpx.HTTPStatusError as e:
-            logger.error(f"Erro HTTP ao solicitar backfill de {summary_type}: {e.response.status_code} - {e.response.text}")
-            return False
-        except Exception as e:
-            logger.error(f"Exceção ao solicitar backfill de {summary_type}: {e}")
-            return False
+                    if response.status_code == 202:
+                        logger.info(f"✅ Backfill de {summary_type} aceito: {start_date.date()} a {end_date.date()}")
+                        return True
+                    elif response.status_code == 409:
+                        logger.warning(f"⚠️ Backfill duplicado de {summary_type}: {start_date.date()} a {end_date.date()}")
+                        return True
+                    elif response.status_code == 429:
+                        # Rate limit - aguardar e tentar novamente
+                        wait_time = (2 ** attempt) * 5  # 5s, 10s, 20s
+                        logger.warning(f"⏳ Rate limit atingido para {summary_type}. Aguardando {wait_time}s...")
+                        await asyncio.sleep(wait_time)
+                        continue
+                    else:
+                        logger.error(f"❌ Erro no backfill de {summary_type}: {response.status_code} - {response.text}")
+                        if attempt == max_retries - 1:
+                            return False
+                        await asyncio.sleep(2)
+                        continue
+                        
+            except httpx.HTTPStatusError as e:
+                if e.response.status_code == 429:
+                    wait_time = (2 ** attempt) * 5
+                    logger.warning(f"⏳ Rate limit (HTTP) para {summary_type}. Aguardando {wait_time}s...")
+                    await asyncio.sleep(wait_time)
+                    continue
+                logger.error(f"Erro HTTP ao solicitar backfill de {summary_type}: {e.response.status_code} - {e.response.text}")
+                if attempt == max_retries - 1:
+                    return False
+                await asyncio.sleep(2)
+            except Exception as e:
+                logger.error(f"Exceção ao solicitar backfill de {summary_type}: {e}")
+                if attempt == max_retries - 1:
+                    return False
+                await asyncio.sleep(2)
+        
+        return False
 
