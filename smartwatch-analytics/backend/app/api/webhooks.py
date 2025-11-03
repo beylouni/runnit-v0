@@ -86,7 +86,10 @@ class WebhookProcessor:
                 # AQUI: Baixar arquivo FIT do callback_url
                 # fit_file_path = await self.download_fit_file(callback_url, activity_id)
                 
-                # Preparar dados da atividade
+                # DEBUG: Logar dados recebidos
+                logger.info(f"🔍 DEBUG - Dados brutos da atividade: {activity}")
+                
+                # Preparar dados da atividade - MANTER TODOS OS CAMPOS DO WEBHOOK
                 activity_data = {
                     'garmin_activity_id': str(activity_id),
                     'activityId': str(activity_id),
@@ -96,8 +99,17 @@ class WebhookProcessor:
                     'activity_type': activity.get('activityType'),
                     'activityType': activity.get('activityType'),
                     'startTimeInSeconds': activity.get('startTimeInSeconds'),
-                    'callbackURL': callback_url
+                    'callbackURL': callback_url,
+                    # Campos numéricos - passar direto do webhook
+                    'durationInSeconds': activity.get('durationInSeconds'),
+                    'distanceInMeters': activity.get('distanceInMeters'),
+                    'averageHeartRateInBeatsPerMinute': activity.get('averageHeartRateInBeatsPerMinute'),
+                    'maxHeartRateInBeatsPerMinute': activity.get('maxHeartRateInBeatsPerMinute'),
+                    'activeKilocalories': activity.get('activeKilocalories'),
+                    'calories': activity.get('calories'),
                 }
+                
+                logger.info(f"🔍 DEBUG - activity_data preparado: {activity_data}")
                 
                 # Salvar no banco de dados
                 saved_activity_id = None
