@@ -207,18 +207,25 @@ class DatabaseService:
                         pass
                 
                 # Extrair e converter valores numéricos
+                # Garmin envia: durationInSeconds, distanceInMeters, activeKilocalories, averageHeartRateInBeatsPerMinute
                 duration_seconds = activity_data.get('duration_seconds') or activity_data.get('durationInSeconds')
                 distance_meters = activity_data.get('distance_meters') or activity_data.get('distanceInMeters')
                 avg_hr = activity_data.get('avg_heart_rate') or activity_data.get('averageHeartRateInBeatsPerMinute')
                 max_hr = activity_data.get('max_heart_rate') or activity_data.get('maxHeartRateInBeatsPerMinute')
-                calories = activity_data.get('total_calories') or activity_data.get('calories')
+                calories = (activity_data.get('total_calories') or 
+                           activity_data.get('activeKilocalories') or 
+                           activity_data.get('calories'))
                 
-                # Garantir que são números ou None
-                duration_seconds = float(duration_seconds) if duration_seconds is not None else None
-                distance_meters = float(distance_meters) if distance_meters is not None else None
-                avg_hr = int(avg_hr) if avg_hr is not None else None
-                max_hr = int(max_hr) if max_hr is not None else None
-                calories = int(calories) if calories is not None else None
+                # Garantir que são números ou None (0 é válido!)
+                try:
+                    duration_seconds = float(duration_seconds) if duration_seconds not in (None, '') else None
+                    distance_meters = float(distance_meters) if distance_meters not in (None, '') else None
+                    avg_hr = int(float(avg_hr)) if avg_hr not in (None, '') else None
+                    max_hr = int(float(max_hr)) if max_hr not in (None, '') else None
+                    calories = int(float(calories)) if calories not in (None, '') else None
+                except (ValueError, TypeError) as e:
+                    logger.warning(f"⚠️ Erro ao converter valores numéricos: {e}")
+                    # Manter None para valores que falharem
                 
                 # Inserir atividade
                 cur.execute("""
